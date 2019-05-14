@@ -39,7 +39,7 @@ module GHTorrent
       return @db unless @db.nil?
 
       Sequel.single_threaded = true
-      @db = Sequel.connect(config(:sql_url), :encoding => 'utf8')
+      @db = Sequel.connect(config(:sql_url), :encoding => 'utf8mb4')
       #@db.loggers << Logger.new(STDOUT)
       if @db.tables.empty?
         dir = File.join(File.dirname(__FILE__), 'migrations')
@@ -375,6 +375,7 @@ module GHTorrent
                      :city => geo[:city],
                      :created_at => date(u['created_at']))
 
+
         info "Added user #{user}"
 
         if user_type(u['type']) == 'ORG'
@@ -642,13 +643,21 @@ module GHTorrent
 
       ts = Time.now
       langs.keys.each do |lang|
-        db[:project_languages].insert(
-          :project_id => currepo[:id],
-          :language   => lang.downcase,
-          :bytes      => langs[lang],
-          :created_at => ts
-        )
-        info "Added project_language #{owner}/#{repo} -> #{lang} (#{langs[lang]} bytes)"
+        if lang != "etag"
+          puts ">>>>>>>> "
+          puts currepo[:id]
+          puts lang.downcase
+          puts langs[lang]
+          puts ts
+          puts ">>>>>>>> "
+          db[:project_languages].insert(
+            :project_id => currepo[:id],
+            :language   => lang.downcase,
+            :bytes      => langs[lang],
+            :created_at => ts
+          )
+          info "Added project_language #{owner}/#{repo} -> #{lang} (#{langs[lang]} bytes)"
+        end
       end
       db[:project_languages].where(:project_id => currepo[:id]).where(:created_at => ts).all
     end

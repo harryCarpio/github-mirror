@@ -4,7 +4,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 SET @OLD_TIME_ZONE=@@session.time_zone;
 
 DROP SCHEMA IF EXISTS `ghtorrent` ;
-CREATE SCHEMA IF NOT EXISTS `ghtorrent` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `ghtorrent` DEFAULT CHARACTER SET utf8mb4 ;
 USE `ghtorrent` ;
 
 -- -----------------------------------------------------
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `ghtorrent`.`commits` (
     FOREIGN KEY (`project_id`)
     REFERENCES `ghtorrent`.`projects` (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 -- -----------------------------------------------------
 -- Table `ghtorrent`.`commit_comments`
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `ghtorrent`.`commit_comments` (
     FOREIGN KEY (`user_id`)
     REFERENCES `ghtorrent`.`users` (`id`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 -- -----------------------------------------------------
 -- Table `ghtorrent`.`commit_parents`
